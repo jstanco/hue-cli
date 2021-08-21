@@ -6,8 +6,8 @@ from hue.error import HueError
 
 
 class NetworkComponent:
-    def __init__(self, ip_address, username, *args):
-        self._ip_address = ip_address
+    def __init__(self, address: str, username, *args):
+        self._ip_address = address
         self._username = username
         self._update_url()
 
@@ -50,8 +50,8 @@ class NetworkComponent:
         return response
 
     def _get_controllables(self, cls):
-        """Retreives a list of all items of class"""
-        response = self.request(ext=cls.EXT, method="GET")
+        """Retrieves a list of all items of class"""
+        response = self.request(ext=cls.extension(), method="GET")
         items = (cls(self, name, **value) for name, value in response.items())
         return sorted(items, key=lambda item: item.id)
 

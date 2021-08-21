@@ -13,13 +13,19 @@ class BaseControllable:
 
 
 class Controllable(BaseControllable):
-    EXT = None
+    def __init_subclass__(cls, /, extension: str, **kwargs) -> None:
+        super().__init_subclass__(**kwargs)
+        cls._url_extension = extension
 
     def __init__(self, bridge, idnum, **kwargs):
         self.__dict__.update(**kwargs)
         super().__init__(bridge)
         self.id = idnum
-        self.ext = f"{self.EXT}/{self.id}"
+        self.ext = f"{self._url_extension}/{self.id}"
+
+    @classmethod
+    def extension(cls) -> str:
+        return cls._url_extension
 
     def _request(self, data=None, ext=None, **kwargs):
         ext = "/".join((self.ext, ext or ""))

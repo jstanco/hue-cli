@@ -1,8 +1,7 @@
 from hue.controllable import Controllable
 
 
-class Light(Controllable):
-    EXT = "lights"
+class Light(Controllable, extension="lights"):
 
     max_hue = 2 ** 16 - 1
     max_sat = 2 ** 8 - 2
