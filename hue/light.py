@@ -1,4 +1,4 @@
-from .controllable import Controllable
+from hue.controllable import Controllable
 
 
 class Light(Controllable):

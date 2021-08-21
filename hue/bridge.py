@@ -1,8 +1,8 @@
 import urllib.request
 import json
 
-from .light import Light
-from .error import HueError
+from hue.light import Light
+from hue.error import HueError
 
 
 class NetworkComponent:

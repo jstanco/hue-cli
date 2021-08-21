@@ -4,9 +4,10 @@ import sys
 import hue
 import configparser
 import os
-from urllib import request
 import ssl
 import argparse
+
+from urllib import request
 
 
 def _linspace(lo, hi, n):
