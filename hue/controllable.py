@@ -1,4 +1,10 @@
-class BaseControllable:
+class ControllableMeta(type):
+    @property
+    def extension(cls) -> str:
+        return cls._url_extension
+
+
+class BaseControllable(metaclass=ControllableMeta):
     def __init__(self, bridge):
         self.bridge = bridge
 
@@ -23,9 +29,9 @@ class Controllable(BaseControllable):
         self.id = idnum
         self.ext = f"{self._url_extension}/{self.id}"
 
-    @classmethod
-    def extension(cls) -> str:
-        return cls._url_extension
+        #    @classmethod
+        #    def extension(cls) -> str:
+        # return cls._url_extension
 
     def _request(self, data=None, ext=None, **kwargs):
         ext = "/".join((self.ext, ext or ""))

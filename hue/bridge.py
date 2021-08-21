@@ -51,7 +51,7 @@ class NetworkComponent:
 
     def _get_controllables(self, cls):
         """Retrieves a list of all items of class"""
-        response = self.request(ext=cls.extension(), method="GET")
+        response = self.request(ext=cls.extension, method="GET")
         items = (cls(self, name, **value) for name, value in response.items())
         return sorted(items, key=lambda item: item.id)
 
