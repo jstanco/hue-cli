@@ -1,6 +1,5 @@
 import json
 import random
-import pprint
 import sys
 import hue
 import configparser
@@ -22,16 +21,15 @@ def _hue_range(mid, n, theta=90):
 
 
 class HelpParser(argparse.ArgumentParser):
-
     def error(self, message):
-        sys.stderr.write('error {}\n'.format(message))
+        print("error {}".format(message), file=sys.stderr)
         self.print_help()
         sys.exit(2)
 
 
 class HueCLI:
 
-    _discovery_url = 'https://discovery.meethue.com/'
+    _DISCOVERY_URL = "https://discovery.meethue.com/"
 
     def __init__(self):
         self.ipaddr = None
@@ -39,25 +37,22 @@ class HueCLI:
 
     @staticmethod
     def _find_credentials_path():
-        return os.path.join(os.path.expanduser('~'), '.hue')    
+        return os.path.join(os.path.expanduser("~"), ".hue")
 
     @staticmethod
     def _find_available_devices():
         sctx = ssl.SSLContext(ssl.PROTOCOL_TLS)
-        response = request.urlopen(HueCLI._discovery_url, context=sctx)
-        return json.loads(response.read().decode('utf-8'))
+        response = request.urlopen(HueCLI._DISCOVERY_URL, context=sctx)
+        return json.loads(response.read().decode("utf-8"))
 
     @staticmethod
     def _setup_credentials(ipaddr, passkey):
         config = configparser.ConfigParser()
-        config['default'] = {
-            'ipaddr': ipaddr,
-            'passkey': passkey
-        }
+        config["default"] = {"ipaddr": ipaddr, "passkey": passkey}
         path = HueCLI._find_credentials_path()
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             config.write(f)
-        print('Configuration written to \'{}\''.format(path))        
+        print("Configuration written to '{}'".format(path))
 
     def _find_credentials(self, args):
         path = self._find_credentials_path()
@@ -66,24 +61,25 @@ class HueCLI:
 
         config = configparser.ConfigParser()
         config.read(self._find_credentials_path())
-        default = config['default']
-        self.ipaddr = default['ipaddr']
-        self.passkey = default['passkey']
+        default = config["default"]
+        self.ipaddr = default["ipaddr"]
+        self.passkey = default["passkey"]
         return 0
 
     def _filter_device_index(self, index):
-        index = int(index) - 1
-        if index < 0:
-            raise ValueError
-        return index
+        index = int(index)
+        if index < 1:
+            raise ValueError("Invalid device index {}".format(index))
+        return index - 1
 
     def create_parser(self):
         parser = argparse.ArgumentParser()
         subparsers = parser.add_subparsers(parser_class=HelpParser)
 
         # Create command to configure credentials
-        config = subparsers.add_parser('config',
-            help='configure hue bridge credentials') 
+        config = subparsers.add_parser(
+            "config", help="configure hue bridge credentials"
+        )
         config.set_defaults(callback=self.configure)
 
         # Create command to set state of resources
@@ -96,61 +92,68 @@ class HueCLI:
         """
 
         # TODO use lights to add range of acceptable choices
-        switch = subparsers.add_parser('switch',
-            help='switch lights on/off')
-        switch.add_argument('value', default=None, nargs='?', type=str,
-            choices=['on', 'off', None],
-            help='Override existing on/off value')
-        switch.add_argument('-i', '--index', type=int,
-            help='Specific light index to modify')
+        switch = subparsers.add_parser("switch", help="switch lights on/off")
+        switch.add_argument(
+            "value",
+            default=None,
+            nargs="?",
+            type=str,
+            choices=["on", "off", None],
+            help="Override existing on/off value",
+        )
+        switch.add_argument(
+            "-i", "--index", type=int, help="Specific light index to modify"
+        )
         switch.set_defaults(callback=self.switch)
 
         # Create command to set light color
-        color = subparsers.add_parser('color')
-        color.add_argument('--hue', type=float,
-            help='hue value to set')
-        color.add_argument('--sat', type=float,
-            default=100,
-            help='saturation value to set')
-        color.add_argument('--bri', type=float,
-            default=75,
-            help='brightness value to set')
-        color.add_argument('-i', '--index', type=int,
-            help='Specific light index to modify')
+        color = subparsers.add_parser("color")
+        color.add_argument("--hue", type=float, help="hue value to set")
+        color.add_argument(
+            "--sat", type=float, default=100, help="saturation value to set"
+        )
+        color.add_argument(
+            "--bri", type=float, default=75, help="brightness value to set"
+        )
+        color.add_argument(
+            "-i", "--index", type=int, help="Specific light index to modify"
+        )
         color.set_defaults(callback=self.color)
 
-        hrange = subparsers.add_parser('range')
-        hrange.add_argument('--hue', type=float,
-            help='hue value to set')
-        hrange.add_argument('--sat', type=float,
-            default=100,
-            help='saturation value to set')
-        hrange.add_argument('--bri', type=float,
-            default=75,
-            help='brightness value to set')
+        hrange = subparsers.add_parser("range")
+        hrange.add_argument("--hue", type=float, help="hue value to set")
+        hrange.add_argument(
+            "--sat", type=float, default=100, help="saturation value to set"
+        )
+        hrange.add_argument(
+            "--bri", type=float, default=75, help="brightness value to set"
+        )
         hrange.set_defaults(callback=self.hrange)
         return parser
 
     def configure(self, args):
         devices = self._find_available_devices()
         if not devices:
-            sys.stderr.write('No available hue devices found on network, exiting.\n')
+            print(
+                "No available hue devices found on network, exiting.",
+                file=sys.stderr,
+            )
             sys.exit(2)
-        print('Found {} Hue device(s)'.format(len(devices)))
+        print("Found {} Hue device(s)".format(len(devices)))
         for i, device in enumerate(devices):
-            print('{})'.format(i + 1), device['internalipaddress'])
+            print("{})".format(i + 1), device["internalipaddress"])
 
         try:
-            index = input('Please select one: ')
+            index = input("Please select one: ")
             device = devices[self._filter_device_index(index)]
-            ipaddr = device['internalipaddress']
-        except ValueError:
-            sys.stderr.write('Invalid device index, exiting.\n')
+            ipaddr = device["internalipaddress"]
+        except ValueError as e:
+            print(e.message, file=sys.stderr)
         except IndexError:
-            sys.stderr.write('Device index out of range, exiting.\n')
+            print("Device index out of range, exiting.", file=sys.stderr)
             sys.exit(2)
 
-        passkey = input('Enter device passkey: ').strip()
+        passkey = input("Enter device passkey: ").strip()
         self._setup_credentials(ipaddr, passkey)
         self.ipaddr = ipaddr
         self.passkey = passkey
@@ -160,18 +163,18 @@ class HueCLI:
         self._find_credentials(args)
         bridge = hue.Bridge(self.ipaddr, self.passkey)
         lights = bridge.lights
-        
+
         if args.index is not None:
             lights = [lights[args.index - 1]]
-        
+
         if args.value is None:
             states = [light.on for light in lights]
             for light, state in zip(lights, states):
                 light.on = not state
-        elif args.value.lower() == 'on':
+        elif args.value.lower() == "on":
             for light in lights:
                 light.on = True
-        elif args.value.lower() == 'off':
+        elif args.value.lower() == "off":
             for light in lights:
                 light.on = False
         return 0
@@ -225,5 +228,5 @@ def main():
     return args.callback(args)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
