@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>hue package &mdash; hue 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Package Index" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> hue
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">hue</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.bridge">hue.bridge module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.cli">hue.cli module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.controllable">hue.controllable module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.error">hue.error module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.light">hue.light module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">hue</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>hue package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/hue.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="hue-package">
+<h1>hue package<a class="headerlink" href="#hue-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-hue.bridge">
+<span id="hue-bridge-module"></span><h2>hue.bridge module<a class="headerlink" href="#module-hue.bridge" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hue.bridge.Bridge">
+<em class="property">class </em><code class="sig-prename descclassname">hue.bridge.</code><code class="sig-name descname">Bridge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ip_address</span></em>, <em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.bridge.Bridge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">hue.bridge.NetworkComponent</span></code></p>
+<dl class="py method">
+<dt id="hue.bridge.Bridge.lights">
+<em class="property">property </em><code class="sig-name descname">lights</code><a class="headerlink" href="#hue.bridge.Bridge.lights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a list of all lights on network</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-hue.cli">
+<span id="hue-cli-module"></span><h2>hue.cli module<a class="headerlink" href="#module-hue.cli" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hue.cli.HelpParser">
+<em class="property">class </em><code class="sig-prename descclassname">hue.cli.</code><code class="sig-name descname">HelpParser</code><span class="sig-paren">(</span><em class="sig-param">prog=None</em>, <em class="sig-param">usage=None</em>, <em class="sig-param">description=None</em>, <em class="sig-param">epilog=None</em>, <em class="sig-param">parents=[]</em>, <em class="sig-param">formatter_class=&lt;class 'argparse.HelpFormatter'&gt;</em>, <em class="sig-param">prefix_chars='-'</em>, <em class="sig-param">fromfile_prefix_chars=None</em>, <em class="sig-param">argument_default=None</em>, <em class="sig-param">conflict_handler='error'</em>, <em class="sig-param">add_help=True</em>, <em class="sig-param">allow_abbrev=True</em><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.HelpParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.ArgumentParser</span></code></p>
+<dl class="py method">
+<dt id="hue.cli.HelpParser.error">
+<code class="sig-name descname">error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">string</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.HelpParser.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a usage message incorporating the message to stderr and
+exits.</p>
+<p>If you override this in a subclass, it should not return – it
+should either exit or raise an exception.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="hue.cli.HueCLI">
+<em class="property">class </em><code class="sig-prename descclassname">hue.cli.</code><code class="sig-name descname">HueCLI</code><a class="headerlink" href="#hue.cli.HueCLI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="hue.cli.HueCLI.color">
+<code class="sig-name descname">color</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.HueCLI.color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="hue.cli.HueCLI.configure">
+<code class="sig-name descname">configure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.HueCLI.configure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="hue.cli.HueCLI.create_parser">
+<code class="sig-name descname">create_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.HueCLI.create_parser" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="hue.cli.HueCLI.hrange">
+<code class="sig-name descname">hrange</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.HueCLI.hrange" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="hue.cli.HueCLI.switch">
+<code class="sig-name descname">switch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.HueCLI.switch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="hue.cli.main">
+<code class="sig-prename descclassname">hue.cli.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hue.cli.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-hue.controllable">
+<span id="hue-controllable-module"></span><h2>hue.controllable module<a class="headerlink" href="#module-hue.controllable" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hue.controllable.BaseControllable">
+<em class="property">class </em><code class="sig-prename descclassname">hue.controllable.</code><code class="sig-name descname">BaseControllable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bridge</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.controllable.BaseControllable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="hue.controllable.Controllable">
+<em class="property">class </em><code class="sig-prename descclassname">hue.controllable.</code><code class="sig-name descname">Controllable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bridge</span></em>, <em class="sig-param"><span class="n">idnum</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.controllable.Controllable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hue.controllable.BaseControllable" title="hue.controllable.BaseControllable"><code class="xref py py-class docutils literal notranslate"><span class="pre">hue.controllable.BaseControllable</span></code></a></p>
+<dl class="py attribute">
+<dt id="hue.controllable.Controllable.EXT">
+<code class="sig-name descname">EXT</code><em class="property"> = None</em><a class="headerlink" href="#hue.controllable.Controllable.EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-hue.error">
+<span id="hue-error-module"></span><h2>hue.error module<a class="headerlink" href="#module-hue.error" title="Permalink to this headline">¶</a></h2>
+<dl class="py exception">
+<dt id="hue.error.HueError">
+<em class="property">exception </em><code class="sig-prename descclassname">hue.error.</code><code class="sig-name descname">HueError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.error.HueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</section>
+<section id="module-hue.light">
+<span id="hue-light-module"></span><h2>hue.light module<a class="headerlink" href="#module-hue.light" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hue.light.Light">
+<em class="property">class </em><code class="sig-prename descclassname">hue.light.</code><code class="sig-name descname">Light</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bridge</span></em>, <em class="sig-param"><span class="n">idnum</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.light.Light" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#hue.controllable.Controllable" title="hue.controllable.Controllable"><code class="xref py py-class docutils literal notranslate"><span class="pre">hue.controllable.Controllable</span></code></a></p>
+<dl class="py attribute">
+<dt id="hue.light.Light.EXT">
+<code class="sig-name descname">EXT</code><em class="property"> = 'lights'</em><a class="headerlink" href="#hue.light.Light.EXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="hue.light.Light.max_bri">
+<code class="sig-name descname">max_bri</code><em class="property"> = 254</em><a class="headerlink" href="#hue.light.Light.max_bri" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="hue.light.Light.max_hue">
+<code class="sig-name descname">max_hue</code><em class="property"> = 65535</em><a class="headerlink" href="#hue.light.Light.max_hue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="hue.light.Light.max_sat">
+<code class="sig-name descname">max_sat</code><em class="property"> = 254</em><a class="headerlink" href="#hue.light.Light.max_sat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-hue">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-hue" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="Package Index" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, John Stanco.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
