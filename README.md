@@ -1,2 +1,2 @@
-* Hue - REST API for communicating with Philips Hue bulbs.
+* Hue - Object-Oriented Python Interface for controlling Philips Hue Bulbs
 
