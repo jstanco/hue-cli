@@ -97,24 +97,20 @@ class HueCLI:
             )
             sys.exit(2)
         print("Found {} Hue device(s)".format(len(devices)))
-        for i, device in enumerate(devices):
-            print("{})".format(i + 1), device["internalipaddress"])
+        for i, (_, address) in enumerate(devices):
+            print("{})".format(i + 1), address)
 
         try:
-            index = input("Please select one: ")
-            device = devices[self._filter_device_index(index)]
-            ipaddr = device["internalipaddress"]
-        except ValueError as e:
-            print(e.message, file=sys.stderr)
-        except IndexError:
-            print("Device index out of range, exiting.", file=sys.stderr)
+            _, address = devices[self._get_input_index()]
+        except IndexError as e:
+            print("{}, exiting".format(e), file=sys.stderr)
             sys.exit(2)
-
-        passkey = input("Enter device passkey: ").strip()
-        self._config = hue.Config(ipaddr, passkey)
-        self._config.write()
-        print("Configuration successfully written!")
-        return 0
+        else:
+            passkey = input("Enter device passkey: ").strip()
+            self._config = hue.Config(address, passkey)
+            self._config.write()
+            print("Configuration successfully written!")
+            return 0
 
     def switch(self, args):
         self._setup_config(args)
@@ -181,10 +177,10 @@ class HueCLI:
         except FileNotFoundError:
             self.configure(args)
 
-    def _filter_device_index(self, index):
-        index = int(index)
+    def _get_input_index(self):
+        index = int(input("Please select one: "))
         if index < 1:
-            raise ValueError("Invalid device index {}".format(index))
+            raise IndexError("Index must be greater than zero")
         return index - 1
 
 

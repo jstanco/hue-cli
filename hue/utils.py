@@ -25,4 +25,5 @@ def make_url(address: str, username: str) -> str:
 def find_available_devices() -> Dict[str, Any]:
     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     response = request.urlopen(_DISCOVERY, context=context)
-    return json.loads(response.read().decode())
+    devices = json.loads(response.read().decode())
+    return [(d["id"], d["internalipaddress"]) for d in devices]
