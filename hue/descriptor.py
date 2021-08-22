@@ -8,9 +8,7 @@ _T = TypeVar("_T", bound=Controllable)
 
 
 class _RemoteAttributeDescriptor:
-    def __init__(
-        self, func: Callable, attribute: str, subpath: str = "state"
-    ) -> None:
+    def __init__(self, func: Callable, attribute: str, subpath: str) -> None:
         self._func = func
         self._attribute = attribute
         self._subpath = subpath
@@ -26,7 +24,7 @@ class _RemoteAttributeDescriptor:
 
 
 class _RemoteStateDescriptor:
-    def __init__(self, func: Callable, subpath: str = "state") -> None:
+    def __init__(self, func: Callable, subpath: str) -> None:
         self._func = func
         self._subpath = subpath
 
@@ -40,10 +38,7 @@ class _RemoteStateDescriptor:
 
 
 def _remoteattr(
-    func: Optional[Callable] = None,
-    *,
-    attribute: Optional[str] = None,
-    subpath: str = "state"
+    func: Optional[Callable] = None, *, attribute: str, subpath: str
 ):
     if func is None:
         return partial(_remoteattr, attribute=attribute, subpath=subpath)
@@ -51,7 +46,7 @@ def _remoteattr(
     return _RemoteAttributeDescriptor(func, attribute, subpath)
 
 
-def _remotestate(func: Optional[Callable] = None, *, subpath: str = "state"):
+def _remotestate(func: Optional[Callable] = None, *, subpath: str):
     if func is None:
         return partial(_remotestate, subpath=subpath)
     return _RemoteStateDescriptor(func, subpath)
