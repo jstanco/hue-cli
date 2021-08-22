@@ -2,8 +2,6 @@ import random
 import sys
 import argparse
 
-from typing import Optional
-
 import hue
 
 
@@ -181,6 +179,7 @@ class HueCLI:
 
 
 def main():
+
     cli = HueCLI()
     parser = cli.create_parser()
     if len(sys.argv) == 1:
