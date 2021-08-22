@@ -89,7 +89,7 @@ class HueCLI:
         return parser
 
     def configure(self, args):
-        devices = hue.Config.find_available_devices()
+        devices = hue.find_available_devices()
         if not devices:
             print(
                 "No available hue devices found on network, exiting.",

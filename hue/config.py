@@ -13,7 +13,6 @@ _T = TypeVar("_T", bound="Config")
 
 class Config:
     _CREDENTIALS = ".hue"
-    _DISCOVERY = "https://discovery.meethue.com/"
 
     def __init__(self, address: str, username: str) -> None:
         self._address = address
@@ -38,12 +37,6 @@ class Config:
         path = self._find_credentials_path()
         with open(path, "w") as file:
             config.write(file)
-
-    @classmethod
-    def find_available_devices(cls) -> Dict[str, Any]:
-        context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-        response = request.urlopen(cls._DISCOVERY, context=context)
-        return json.loads(response.read().decode())
 
     @classmethod
     def from_file(cls: Type[_T]) -> _T:
