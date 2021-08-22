@@ -1,2 +1,2 @@
-* Hue - Python Client API for controlling Philips Hue Bulbs
+* Hue - Python client API for controlling Philips Hue Bulbs
 
