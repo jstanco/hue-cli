@@ -12,7 +12,7 @@ _T = TypeVar("_T", bound="Config")
 
 
 class Config:
-    _CREDENTIALS = ".hue"
+    _CREDENTIALS_PATH = ".hue"
 
     def __init__(self, address: str, username: str) -> None:
         self._address = address
@@ -54,4 +54,4 @@ class Config:
 
     @classmethod
     def _find_credentials_path(cls) -> str:
-        return os.path.join(os.path.expanduser("~"), cls._CREDENTIALS)
+        return os.path.join(os.path.expanduser("~"), cls._CREDENTIALS_PATH)
