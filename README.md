@@ -1,2 +1,2 @@
-* Hue - Object-Oriented Python Interface for controlling Philips Hue Bulbs
+* Hue - Python Client API for controlling Philips Hue Bulbs
 
