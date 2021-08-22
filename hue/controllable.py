@@ -11,7 +11,7 @@ class Controllable:
     _cls_extension = ""
 
     def __init_subclass__(
-        cls, /, extension: str, **kwargs: Dict[str, Any]
+        cls, *, extension: str, **kwargs: Dict[str, Any]
     ) -> None:
         cls._cls_extension = extension
         super().__init_subclass__(**kwargs)  # type: ignore[call-arg]
