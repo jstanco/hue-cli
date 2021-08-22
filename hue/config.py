@@ -1,10 +1,7 @@
 import configparser
-import json
 import os
-import ssl
 
-from typing import Any, Dict, Type, TypeVar
-from urllib import request
+from typing import Type, TypeVar
 
 import hue.utils as U
 
