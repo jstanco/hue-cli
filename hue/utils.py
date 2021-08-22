@@ -3,7 +3,7 @@ import ssl
 
 from urllib import request
 
-from typing import Any, Callable, Dict, Type, TypeVar
+from typing import Any, Callable, List, Tuple, Type, TypeVar
 
 
 _T = TypeVar("_T")
@@ -22,7 +22,7 @@ def make_url(address: str, username: str) -> str:
     return "http://{}/api/{}".format(address, username)
 
 
-def find_available_devices() -> Dict[str, Any]:
+def find_available_devices() -> List[Tuple[str, str]]:
     context = ssl.SSLContext(ssl.PROTOCOL_TLS)
     response = request.urlopen(_DISCOVERY, context=context)
     devices = json.loads(response.read().decode())
