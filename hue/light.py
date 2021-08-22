@@ -1,5 +1,6 @@
 from hue.controllable import Controllable
 from hue.descriptor import remote
+from hue.utils import classproperty
 
 
 class Light(Controllable, extension="lights"):
@@ -29,3 +30,15 @@ class Light(Controllable, extension="lights"):
 
     def switch(self) -> None:
         self.on = not self.on
+
+    @classproperty
+    def max_hue(self) -> int:
+        return 2 ** 16 - 1
+
+    @classproperty
+    def max_sat(self) -> int:
+        return 2 ** 8 - 2
+
+    @classproperty
+    def max_bri(self) -> int:
+        return 2 ** 8 - 2
