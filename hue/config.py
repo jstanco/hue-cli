@@ -1,11 +1,18 @@
 import configparser
+import logging
 import os
 
-from typing import Type, TypeVar
+from typing import Optional, Type, TypeVar
 
 import hue.utils as U
 
+
+_logger = logging.getLogger(__name__)
 _T = TypeVar("_T", bound="Config")
+
+
+class ConfigNotFoundError(Exception):
+    pass
 
 
 class Config:
@@ -31,24 +38,42 @@ class Config:
     def write(self) -> None:
         config = configparser.ConfigParser()
         config["default"] = {"ipaddr": self._address, "passkey": self._username}
-        path = self._find_credentials_path()
+        path = self._make_credentials_path()
+        _logger.debug("Writing config to default user path {}".format(path))
         with open(path, "w") as file:
             config.write(file)
 
     @classmethod
     def from_file(cls: Type[_T]) -> _T:
         config = configparser.ConfigParser()
-        path = cls._find_credentials_path()
+        path = cls._make_credentials_path()
+        _logger.debug("Loading config from default user path {}".format(path))
         if not os.path.exists(path):
-            raise FileNotFoundError(
+            raise ConfigNotFoundError(
                 "Could not locate hue configuration file on disk"
             )
-
         config.read(path)
         address = config["default"]["ipaddr"]
         username = config["default"]["passkey"]
         return cls(address, username)
 
     @classmethod
-    def _find_credentials_path(cls) -> str:
+    def _make_credentials_path(cls) -> str:
         return os.path.join(os.path.expanduser("~"), cls._CREDENTIALS_PATH)
+
+
+_CONFIG: Optional[Config] = None
+
+
+def get_config() -> Config:
+    global _CONFIG
+    if _CONFIG is None:
+        _CONFIG = Config.from_file()
+        _logger.debug("Default config successfully loaded")
+    return _CONFIG
+
+
+def set_config(config: Config) -> None:
+    global _CONFIG
+    _CONFIG = config
+    _logger.debug("Hue config set")

@@ -26,9 +26,6 @@ class HelpParser(argparse.ArgumentParser):
 
 
 class HueCLI:
-    def __init__(self):
-        self._config: Optional[hue.Config] = None
-
     def create_parser(self):
         parser = argparse.ArgumentParser()
         subparsers = parser.add_subparsers(parser_class=HelpParser)
@@ -97,8 +94,8 @@ class HueCLI:
             )
             sys.exit(2)
         print("Found {} Hue device(s)".format(len(devices)))
-        for i, (_, address) in enumerate(devices):
-            print("{})".format(i + 1), address)
+        for index, (_, address) in enumerate(devices):
+            print("{})".format(index + 1), address)
 
         try:
             _, address = devices[self._get_input_index()]
@@ -107,14 +104,15 @@ class HueCLI:
             sys.exit(2)
         else:
             passkey = input("Enter device passkey: ").strip()
-            self._config = hue.Config(address, passkey)
-            self._config.write()
+            config = hue.Config(address, passkey)
+            config.write()
+            hue.set_config(config)
             print("Configuration successfully written!")
             return 0
 
     def switch(self, args):
         self._setup_config(args)
-        bridge = hue.Bridge(self._config.address, self._config.username)
+        bridge = hue.Bridge()
 
         if args.index is not None:
             lights = [bridge.light(args.index)]
@@ -134,8 +132,7 @@ class HueCLI:
 
     def color(self, args):
         self._setup_config(args)
-        bridge = hue.Bridge(self._config.address, self._config.username)
-        lights = bridge.lights
+        bridge = hue.Bridge()
 
         if args.index is not None:
             lights = [bridge.light(args.index)]
@@ -155,8 +152,7 @@ class HueCLI:
 
     def hrange(self, args):
         self._setup_config(args)
-        bridge = hue.Bridge(self._config.address, self._config.username)
-        lights = bridge.lights
+        lights = hue.Bridge().lights
 
         if args.hue is None:
             # Set random hue value
@@ -173,12 +169,12 @@ class HueCLI:
 
     def _setup_config(self, args):
         try:
-            self._config = hue.Config.from_file()
-        except FileNotFoundError:
+            hue.get_config()
+        except hue.ConfigNotFoundError:
             self.configure(args)
 
     def _get_input_index(self):
-        index = int(input("Please select one: "))
+        index = int(input("Please select device index: "))
         if index < 1:
             raise IndexError("Index must be greater than zero")
         return index - 1

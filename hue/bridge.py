@@ -1,15 +1,18 @@
-from typing import Iterable, Type, TypeVar
+from typing import Iterable, Optional, Type, TypeVar
 
 from hue.controllable import Controllable
 from hue.client import HueClient
 from hue.light import Light
+from hue.config import Config, get_config
 
 _T = TypeVar("_T", bound=Controllable)
 
 
 class Bridge:
-    def __init__(self, address: str, username: str):
-        self._client = HueClient(address, username)
+    def __init__(self, config: Optional[Config] = None):
+        if config is None:
+            config = get_config()
+        self._client = HueClient(config)
 
     @property
     def lights(self) -> Iterable[Light]:

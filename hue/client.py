@@ -4,14 +4,19 @@ import json
 from typing import Any, Dict, List, Optional, Union
 
 import hue.utils as U
-from hue.error import HueError
+from hue.config import Config
+
+
+class ClientRequestError(Exception):
+    def __init__(self, type: str, address: str, description: str):
+        super().__init__(description)
+        self._type = type
+        self._address = address
 
 
 class HueClient:
-    def __init__(self, address: str, username: str) -> None:
-        self._address = address
-        self._username = username
-        self._url: str = U.make_url(address, username)
+    def __init__(self, config: Config) -> None:
+        self._url: str = U.make_url(config.address, config.username)
 
     def request(
         self,
@@ -53,4 +58,4 @@ class HueClient:
             (obj,) = response
             error = obj.get("error")
             if error is not None:
-                raise HueError(**error)
+                raise ClientRequestError(**error)
