@@ -3,24 +3,28 @@ from hue.descriptor import remote
 
 
 class Light(Controllable, extension="lights"):
-    @remote(attribute="on")
+    @remote(attribute="on", subpath="state")
     def on(self) -> bool:
         pass
 
-    @remote(attribute="hue")
+    @remote(attribute="hue", subpath="state")
     def hue(self) -> int:
         pass
 
-    @remote(attribute="sat")
+    @remote(attribute="sat", subpath="state")
     def sat(self) -> int:
         pass
 
-    @remote(attribute="bri")
+    @remote(attribute="bri", subpath="state")
     def bri(self) -> int:
         pass
 
-    @remote
+    @remote(subpath="state")
     def state(self) -> dict:
+        pass
+
+    @remote(subpath="config")
+    def config(self) -> dict:
         pass
 
     def switch(self) -> None:

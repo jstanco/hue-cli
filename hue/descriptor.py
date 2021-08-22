@@ -31,28 +31,38 @@ class _RemoteStateDescriptor:
         self._subpath = subpath
 
     def __set__(self, instance: _T, value: Any) -> None:
-        extension = "{}/state".format(instance.extension)
+        extension = "{}/{}".format(instance.extension, self._subpath)
         instance.client.put(extension=extension, data=value)
 
     def __get__(self, instance: _T, cls: Type[_T]) -> Any:
         response = instance.client.get(extension=instance.extension)
-        return response["state"]
+        return response[self._subpath]
 
 
 def _remoteattr(
-    func: Optional[Callable] = None, *, attribute: Optional[str] = None
+    func: Optional[Callable] = None,
+    *,
+    attribute: Optional[str] = None,
+    subpath: str = "state"
 ):
     if func is None:
-        return partial(_remoteattr, attribute=attribute)
-    return _RemoteAttributeDescriptor(func, attribute)
+        return partial(_remoteattr, attribute=attribute, subpath=subpath)
+
+    return _RemoteAttributeDescriptor(func, attribute, subpath)
 
 
-def _remotestate(func: Callable) -> _RemoteStateDescriptor:
-    return _RemoteStateDescriptor(func)
-
-
-def remote(func: Optional[Callable] = None, *, attribute: Optional[str] = None):
+def _remotestate(func: Optional[Callable] = None, *, subpath: str = "state"):
     if func is None:
-        return partial(_remoteattr, attribute=attribute)
+        return partial(_remotestate, subpath=subpath)
+    return _RemoteStateDescriptor(func, subpath)
 
-    return _remotestate(func)
+
+def remote(
+    func: Optional[Callable] = None,
+    *,
+    attribute: Optional[str] = None,
+    subpath: str = "state"
+):
+    if attribute is None:
+        return _remotestate(func, subpath=subpath)
+    return _remoteattr(func, attribute=attribute, subpath=subpath)
