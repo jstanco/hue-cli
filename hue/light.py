@@ -1,14 +1,27 @@
 from hue.controllable import Controllable
+from hue.descriptor import remote
 
 
 class Light(Controllable, extension="lights"):
+    @remote(attribute="on")
+    def on(self) -> bool:
+        pass
 
-    max_hue = 2 ** 16 - 1
-    max_sat = 2 ** 8 - 2
-    max_bri = 2 ** 8 - 2
+    @remote(attribute="hue")
+    def hue(self) -> int:
+        pass
 
-    def __init__(self, bridge, idnum, **kwargs):
-        super().__init__(bridge, idnum, **kwargs)
+    @remote(attribute="sat")
+    def sat(self) -> int:
+        pass
 
+    @remote(attribute="bri")
+    def bri(self) -> int:
+        pass
 
-__all__ = ["Light"]
+    @remote
+    def state(self) -> dict:
+        pass
+
+    def switch(self) -> None:
+        self.on = not self.on

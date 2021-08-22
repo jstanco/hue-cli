@@ -1,69 +1,42 @@
-import urllib.request
-import json
+from typing import Iterable, Type, TypeVar
 
+from hue.controllable import Controllable
+from hue.client import HueClient
 from hue.light import Light
-from hue.error import HueError
+
+_T = TypeVar("_T", bound=Controllable)
 
 
-class NetworkComponent:
-    def __init__(self, address: str, username, *args):
-        self._ip_address = address
-        self._username = username
-        self._update_url()
-
-    def _update_url(self):
-        self.url = f"http://{self._ip_address}/api/{self._username}"
+class Bridge:
+    def __init__(self, address: str, username: str):
+        self._client = HueClient(address, username)
 
     @property
-    def username(self):
-        return self._username
-
-    @username.setter
-    def username(self, value):
-        self._username = value
-        self._update_url()
-
-    @property
-    def ip_address(self):
-        return self._ip_address
-
-    @ip_address.setter
-    def ip_address(self, value):
-        self._ip_address = value
-        self._update_url()
-
-    def _validate_response(self, response):
-        for obj in response:
-            if isinstance(obj, dict):
-                error = obj.get("error")
-                if error is not None:
-                    raise HueError(error)
-
-    def request(self, ext=None, data=None, **kwargs):
-        url = "{}/{}".format(self.url, ext or "")
-        if data is not None:
-            data = json.dumps(data).encode("utf-8")
-        request = urllib.request.Request(url, data=data, **kwargs)
-        response = urllib.request.urlopen(request)
-        response = json.loads(response.read().decode("utf-8"))
-        self._validate_response(response)
-        return response
-
-    def _get_controllables(self, cls):
-        """Retrieves a list of all items of class"""
-        response = self.request(ext=cls.extension, method="GET")
-        items = (cls(self, name, **value) for name, value in response.items())
-        return sorted(items, key=lambda item: item.id)
-
-
-class Bridge(NetworkComponent):
-    def __init__(self, ip_address, username):
-        super().__init__(ip_address, username)
-
-    @property
-    def lights(self):
+    def lights(self) -> Iterable[Light]:
         """Retrieves a list of all lights on network"""
-        return self._get_controllables(cls=Light)
+        return self._get_controllables(Light)
 
+    def light(self, index: int) -> Light:
+        """Retrieves a list of all lights on network"""
+        return self._get_controllable(Light, index)
 
-__all__ = ["Bridge"]
+    def controllables(self, cls: Type[_T]) -> Iterable[_T]:
+        """Retrieves a list of all items of class 'cls'"""
+        return self._get_controllables(cls)
+
+    def controllable(self, cls: Type[_T], index: int) -> _T:
+        """Retrieves a list of all items of class 'cls'"""
+        return self._get_controllable(cls, index)
+
+    def _get_controllable(self, cls: Type[_T], index: int) -> _T:
+        """Retrieves controllable of type _T at 'index'"""
+        extension = "{}/{}".format(cls.class_extension, index)
+        # Poll to ensure that controllable at index exists
+        self._client.get(extension=extension)
+        return cls(self._client, index)
+
+    def _get_controllables(self, cls: Type[_T]) -> Iterable[_T]:
+        """Retrieves a list of all items of class 'cls'"""
+        response = self._client.get(extension=cls.class_extension)
+        items = (cls(self._client, index=int(name)) for name in response)
+        return sorted(items, key=lambda item: item.index)

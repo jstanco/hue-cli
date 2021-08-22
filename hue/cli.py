@@ -36,43 +36,6 @@ class HueCLI:
         self.ipaddr = None
         self.passkey = None
 
-    @staticmethod
-    def _find_credentials_path():
-        return os.path.join(os.path.expanduser("~"), ".hue")
-
-    @staticmethod
-    def _find_available_devices():
-        sctx = ssl.SSLContext(ssl.PROTOCOL_TLS)
-        response = request.urlopen(HueCLI._DISCOVERY_URL, context=sctx)
-        return json.loads(response.read().decode("utf-8"))
-
-    @staticmethod
-    def _setup_credentials(ipaddr, passkey):
-        config = configparser.ConfigParser()
-        config["default"] = {"ipaddr": ipaddr, "passkey": passkey}
-        path = HueCLI._find_credentials_path()
-        with open(path, "w") as f:
-            config.write(f)
-        print("Configuration written to '{}'".format(path))
-
-    def _find_credentials(self, args):
-        path = self._find_credentials_path()
-        if not os.path.exists(path):
-            self.configure(args)
-
-        config = configparser.ConfigParser()
-        config.read(self._find_credentials_path())
-        default = config["default"]
-        self.ipaddr = default["ipaddr"]
-        self.passkey = default["passkey"]
-        return 0
-
-    def _filter_device_index(self, index):
-        index = int(index)
-        if index < 1:
-            raise ValueError("Invalid device index {}".format(index))
-        return index - 1
-
     def create_parser(self):
         parser = argparse.ArgumentParser()
         subparsers = parser.add_subparsers(parser_class=HelpParser)
@@ -216,6 +179,43 @@ class HueCLI:
             light.sat = int(args.sat / 100 * light.max_sat)
             light.bri = int(args.bri / 100 * light.max_bri)
         return 0
+
+    @staticmethod
+    def _find_credentials_path():
+        return os.path.join(os.path.expanduser("~"), ".hue")
+
+    @staticmethod
+    def _find_available_devices():
+        sctx = ssl.SSLContext(ssl.PROTOCOL_TLS)
+        response = request.urlopen(HueCLI._DISCOVERY_URL, context=sctx)
+        return json.loads(response.read().decode("utf-8"))
+
+    @staticmethod
+    def _setup_credentials(ipaddr, passkey):
+        config = configparser.ConfigParser()
+        config["default"] = {"ipaddr": ipaddr, "passkey": passkey}
+        path = HueCLI._find_credentials_path()
+        with open(path, "w") as f:
+            config.write(f)
+        print("Configuration written to '{}'".format(path))
+
+    def _find_credentials(self, args):
+        path = self._find_credentials_path()
+        if not os.path.exists(path):
+            self.configure(args)
+
+        config = configparser.ConfigParser()
+        config.read(self._find_credentials_path())
+        default = config["default"]
+        self.ipaddr = default["ipaddr"]
+        self.passkey = default["passkey"]
+        return 0
+
+    def _filter_device_index(self, index):
+        index = int(index)
+        if index < 1:
+            raise ValueError("Invalid device index {}".format(index))
+        return index - 1
 
 
 def main():
