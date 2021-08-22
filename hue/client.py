@@ -48,7 +48,7 @@ class HueClient:
     def _create_url(self, extension: Optional[str] = None) -> str:
         return "{}/{}".format(self._url, extension or "")
 
-    def _validate_response(self, response: Union[List, Dict]):
+    def _validate_response(self, response: Union[List, Dict]) -> None:
         if isinstance(response, list):
             (obj,) = response
             error = obj.get("error")
