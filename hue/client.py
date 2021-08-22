@@ -16,7 +16,7 @@ class HueClient:
     def request(
         self,
         extension: Optional[str] = None,
-        data: Dict[str, Any] = None,
+        data: Optional[Dict[str, Any]] = None,
         method: Optional[str] = None,
     ) -> Dict:
         url = self._create_url(extension)
@@ -32,12 +32,16 @@ class HueClient:
         return response
 
     def get(
-        self, extension: Optional[str] = None, data: Dict[str, Any] = None
+        self,
+        extension: Optional[str] = None,
+        data: Optional[Dict[str, Any]] = None,
     ) -> Dict:
         return self.request(extension, data, method="GET")
 
     def put(
-        self, extension: Optional[str] = None, data: Dict[str, Any] = None
+        self,
+        extension: Optional[str] = None,
+        data: Optional[Dict[str, Any]] = None,
     ) -> Dict:
         return self.request(extension, data, method="PUT")
 
