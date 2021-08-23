@@ -20,6 +20,22 @@ hue.cli module
    :undoc-members:
    :show-inheritance:
 
+hue.client module
+-----------------
+
+.. automodule:: hue.client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+hue.config module
+-----------------
+
+.. automodule:: hue.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 hue.controllable module
 -----------------------
 
@@ -28,10 +44,10 @@ hue.controllable module
    :undoc-members:
    :show-inheritance:
 
-hue.error module
-----------------
+hue.descriptor module
+---------------------
 
-.. automodule:: hue.error
+.. automodule:: hue.descriptor
    :members:
    :undoc-members:
    :show-inheritance:
@@ -40,6 +56,14 @@ hue.light module
 ----------------
 
 .. automodule:: hue.light
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+hue.utils module
+----------------
+
+.. automodule:: hue.utils
    :members:
    :undoc-members:
    :show-inheritance:

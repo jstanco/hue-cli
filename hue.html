@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>hue package &mdash; hue 0.1.0 documentation</title>
+  <title>hue package &mdash; hue 0.2.0 documentation</title>
   
 
   
@@ -90,9 +90,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-hue.bridge">hue.bridge module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-hue.cli">hue.cli module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.client">hue.client module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.config">hue.config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-hue.controllable">hue.controllable module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-hue.error">hue.error module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.descriptor">hue.descriptor module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-hue.light">hue.light module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-hue.utils">hue.utils module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-hue">Module contents</a></li>
 </ul>
 </li>
@@ -172,12 +175,62 @@
 <span id="hue-bridge-module"></span><h2>hue.bridge module<a class="headerlink" href="#module-hue.bridge" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="hue.bridge.Bridge">
-<em class="property">class </em><code class="sig-prename descclassname">hue.bridge.</code><code class="sig-name descname">Bridge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ip_address</span></em>, <em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.bridge.Bridge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">hue.bridge.NetworkComponent</span></code></p>
+<em class="property">class </em><code class="sig-prename descclassname">hue.bridge.</code><code class="sig-name descname">Bridge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.bridge.Bridge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="hue.bridge.Bridge.controllable">
+<code class="sig-name descname">controllable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span></em>, <em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.bridge.Bridge.controllable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a list of all items of class ‘cls’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~_T</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>cls</strong> (<em>Type</em><em>[</em><em>_T</em><em>]</em>) – </p></li>
+<li><p><strong>index</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.bridge.Bridge.controllables">
+<code class="sig-name descname">controllables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.bridge.Bridge.controllables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a list of all items of class ‘cls’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[~_T]</p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>cls</strong> (<em>Type</em><em>[</em><em>_T</em><em>]</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.bridge.Bridge.light">
+<code class="sig-name descname">light</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.bridge.Bridge.light" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a list of all lights on network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#hue.light.Light" title="hue.light.Light"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>index</strong> (<em>int</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt id="hue.bridge.Bridge.lights">
 <em class="property">property </em><code class="sig-name descname">lights</code><a class="headerlink" href="#hue.bridge.Bridge.lights" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves a list of all lights on network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<a class="reference internal" href="#hue.light.Light" title="hue.light.Light"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -237,32 +290,225 @@ should either exit or raise an exception.</p>
 <dd></dd></dl>
 
 </section>
-<section id="module-hue.controllable">
-<span id="hue-controllable-module"></span><h2>hue.controllable module<a class="headerlink" href="#module-hue.controllable" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="hue.controllable.BaseControllable">
-<em class="property">class </em><code class="sig-prename descclassname">hue.controllable.</code><code class="sig-name descname">BaseControllable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bridge</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.controllable.BaseControllable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<section id="module-hue.client">
+<span id="hue-client-module"></span><h2>hue.client module<a class="headerlink" href="#module-hue.client" title="Permalink to this headline">¶</a></h2>
+<dl class="py exception">
+<dt id="hue.client.ClientRequestError">
+<em class="property">exception </em><code class="sig-prename descclassname">hue.client.</code><code class="sig-name descname">ClientRequestError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type</span></em>, <em class="sig-param"><span class="n">address</span></em>, <em class="sig-param"><span class="n">description</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.client.ClientRequestError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> (<em>str</em>) – </p></li>
+<li><p><strong>address</strong> (<em>str</em>) – </p></li>
+<li><p><strong>description</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
-<dt id="hue.controllable.Controllable">
-<em class="property">class </em><code class="sig-prename descclassname">hue.controllable.</code><code class="sig-name descname">Controllable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bridge</span></em>, <em class="sig-param"><span class="n">idnum</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.controllable.Controllable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#hue.controllable.BaseControllable" title="hue.controllable.BaseControllable"><code class="xref py py-class docutils literal notranslate"><span class="pre">hue.controllable.BaseControllable</span></code></a></p>
-<dl class="py attribute">
-<dt id="hue.controllable.Controllable.EXT">
-<code class="sig-name descname">EXT</code><em class="property"> = None</em><a class="headerlink" href="#hue.controllable.Controllable.EXT" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="hue.client.HueClient">
+<em class="property">class </em><code class="sig-prename descclassname">hue.client.</code><code class="sig-name descname">HueClient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.client.HueClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="hue.client.HueClient.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extension</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.client.HueClient.get" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>extension</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.client.HueClient.put">
+<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extension</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.client.HueClient.put" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>extension</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.client.HueClient.request">
+<code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">extension</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.client.HueClient.request" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>extension</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>data</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>method</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-hue.error">
-<span id="hue-error-module"></span><h2>hue.error module<a class="headerlink" href="#module-hue.error" title="Permalink to this headline">¶</a></h2>
+<section id="module-hue.config">
+<span id="hue-config-module"></span><h2>hue.config module<a class="headerlink" href="#module-hue.config" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hue.config.Config">
+<em class="property">class </em><code class="sig-prename descclassname">hue.config.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">address</span></em>, <em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="hue.config.Config.address">
+<em class="property">property </em><code class="sig-name descname">address</code><a class="headerlink" href="#hue.config.Config.address" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.config.Config.from_file">
+<em class="property">classmethod </em><code class="sig-name descname">from_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hue.config.Config.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>~_T</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.config.Config.url">
+<em class="property">property </em><code class="sig-name descname">url</code><a class="headerlink" href="#hue.config.Config.url" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.config.Config.username">
+<em class="property">property </em><code class="sig-name descname">username</code><a class="headerlink" href="#hue.config.Config.username" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.config.Config.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hue.config.Config.write" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py exception">
-<dt id="hue.error.HueError">
-<em class="property">exception </em><code class="sig-prename descclassname">hue.error.</code><code class="sig-name descname">HueError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.error.HueError" title="Permalink to this definition">¶</a></dt>
+<dt id="hue.config.ConfigNotFoundError">
+<em class="property">exception </em><code class="sig-prename descclassname">hue.config.</code><code class="sig-name descname">ConfigNotFoundError</code><a class="headerlink" href="#hue.config.ConfigNotFoundError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hue.config.get_config">
+<code class="sig-prename descclassname">hue.config.</code><code class="sig-name descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hue.config.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#hue.config.Config" title="hue.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hue.config.set_config">
+<code class="sig-prename descclassname">hue.config.</code><code class="sig-name descname">set_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.config.set_config" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>config</strong> (<a class="reference internal" href="#hue.config.Config" title="hue.config.Config"><em>hue.config.Config</em></a>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-hue.controllable">
+<span id="hue-controllable-module"></span><h2>hue.controllable module<a class="headerlink" href="#module-hue.controllable" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hue.controllable.Controllable">
+<em class="property">class </em><code class="sig-prename descclassname">hue.controllable.</code><code class="sig-name descname">Controllable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span></em>, <em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.controllable.Controllable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="hue.controllable.Controllable.class_extension">
+<code class="sig-name descname">class_extension</code><em class="property"> = ''</em><a class="headerlink" href="#hue.controllable.Controllable.class_extension" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="hue.controllable.Controllable.client">
+<em class="property">property </em><code class="sig-name descname">client</code><a class="headerlink" href="#hue.controllable.Controllable.client" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#hue.client.HueClient" title="hue.client.HueClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">HueClient</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.controllable.Controllable.extension">
+<em class="property">property </em><code class="sig-name descname">extension</code><a class="headerlink" href="#hue.controllable.Controllable.extension" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hue.controllable.Controllable.index">
+<em class="property">property </em><code class="sig-name descname">index</code><a class="headerlink" href="#hue.controllable.Controllable.index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-hue.descriptor">
+<span id="hue-descriptor-module"></span><h2>hue.descriptor module<a class="headerlink" href="#module-hue.descriptor" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hue.descriptor.remote">
+<code class="sig-prename descclassname">hue.descriptor.</code><code class="sig-name descname">remote</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">attribute</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">subpath</span><span class="o">=</span><span class="default_value">'state'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.descriptor.remote" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em>) – </p></li>
+<li><p><strong>attribute</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – </p></li>
+<li><p><strong>subpath</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -270,11 +516,21 @@ should either exit or raise an exception.</p>
 <span id="hue-light-module"></span><h2>hue.light module<a class="headerlink" href="#module-hue.light" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="hue.light.Light">
-<em class="property">class </em><code class="sig-prename descclassname">hue.light.</code><code class="sig-name descname">Light</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bridge</span></em>, <em class="sig-param"><span class="n">idnum</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.light.Light" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">hue.light.</code><code class="sig-name descname">Light</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span></em>, <em class="sig-param"><span class="n">index</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.light.Light" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#hue.controllable.Controllable" title="hue.controllable.Controllable"><code class="xref py py-class docutils literal notranslate"><span class="pre">hue.controllable.Controllable</span></code></a></p>
 <dl class="py attribute">
-<dt id="hue.light.Light.EXT">
-<code class="sig-name descname">EXT</code><em class="property"> = 'lights'</em><a class="headerlink" href="#hue.light.Light.EXT" title="Permalink to this definition">¶</a></dt>
+<dt id="hue.light.Light.bri">
+<code class="sig-name descname">bri</code><a class="headerlink" href="#hue.light.Light.bri" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="hue.light.Light.config">
+<code class="sig-name descname">config</code><a class="headerlink" href="#hue.light.Light.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="hue.light.Light.hue">
+<code class="sig-name descname">hue</code><a class="headerlink" href="#hue.light.Light.hue" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -292,6 +548,66 @@ should either exit or raise an exception.</p>
 <code class="sig-name descname">max_sat</code><em class="property"> = 254</em><a class="headerlink" href="#hue.light.Light.max_sat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt id="hue.light.Light.on">
+<code class="sig-name descname">on</code><a class="headerlink" href="#hue.light.Light.on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="hue.light.Light.sat">
+<code class="sig-name descname">sat</code><a class="headerlink" href="#hue.light.Light.sat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="hue.light.Light.state">
+<code class="sig-name descname">state</code><a class="headerlink" href="#hue.light.Light.state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="hue.light.Light.switch">
+<code class="sig-name descname">switch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hue.light.Light.switch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-hue.utils">
+<span id="hue-utils-module"></span><h2>hue.utils module<a class="headerlink" href="#module-hue.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hue.utils.classproperty">
+<em class="property">class </em><code class="sig-prename descclassname">hue.utils.</code><code class="sig-name descname">classproperty</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fget</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.utils.classproperty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hue.utils.find_available_devices">
+<code class="sig-prename descclassname">hue.utils.</code><code class="sig-name descname">find_available_devices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hue.utils.find_available_devices" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="hue.utils.make_url">
+<code class="sig-prename descclassname">hue.utils.</code><code class="sig-name descname">make_url</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">address</span></em>, <em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hue.utils.make_url" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>address</strong> (<em>str</em>) – </p></li>
+<li><p><strong>username</strong> (<em>str</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
