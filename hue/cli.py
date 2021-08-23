@@ -1,13 +1,8 @@
-import json
 import random
 import sys
-import hue
-import configparser
-import os
-import ssl
 import argparse
 
-from urllib import request
+import hue
 
 
 def _linspace(lo, hi, n):
@@ -15,7 +10,7 @@ def _linspace(lo, hi, n):
     return [lo + i * dx for i in range(n)]
 
 
-def _hue_range(mid, n, theta=90):
+def _hue_range(mid, n, theta=50):
     lo = mid - theta / 2
     hi = mid + theta / 2
     return _linspace(lo, hi, n)
@@ -29,50 +24,6 @@ class HelpParser(argparse.ArgumentParser):
 
 
 class HueCLI:
-
-    _DISCOVERY_URL = "https://discovery.meethue.com/"
-
-    def __init__(self):
-        self.ipaddr = None
-        self.passkey = None
-
-    @staticmethod
-    def _find_credentials_path():
-        return os.path.join(os.path.expanduser("~"), ".hue")
-
-    @staticmethod
-    def _find_available_devices():
-        sctx = ssl.SSLContext(ssl.PROTOCOL_TLS)
-        response = request.urlopen(HueCLI._DISCOVERY_URL, context=sctx)
-        return json.loads(response.read().decode("utf-8"))
-
-    @staticmethod
-    def _setup_credentials(ipaddr, passkey):
-        config = configparser.ConfigParser()
-        config["default"] = {"ipaddr": ipaddr, "passkey": passkey}
-        path = HueCLI._find_credentials_path()
-        with open(path, "w") as f:
-            config.write(f)
-        print("Configuration written to '{}'".format(path))
-
-    def _find_credentials(self, args):
-        path = self._find_credentials_path()
-        if not os.path.exists(path):
-            self.configure(args)
-
-        config = configparser.ConfigParser()
-        config.read(self._find_credentials_path())
-        default = config["default"]
-        self.ipaddr = default["ipaddr"]
-        self.passkey = default["passkey"]
-        return 0
-
-    def _filter_device_index(self, index):
-        index = int(index)
-        if index < 1:
-            raise ValueError("Invalid device index {}".format(index))
-        return index - 1
-
     def create_parser(self):
         parser = argparse.ArgumentParser()
         subparsers = parser.add_subparsers(parser_class=HelpParser)
@@ -133,7 +84,7 @@ class HueCLI:
         return parser
 
     def configure(self, args):
-        devices = self._find_available_devices()
+        devices = hue.find_available_devices()
         if not devices:
             print(
                 "No available hue devices found on network, exiting.",
@@ -141,37 +92,34 @@ class HueCLI:
             )
             sys.exit(2)
         print("Found {} Hue device(s)".format(len(devices)))
-        for i, device in enumerate(devices):
-            print("{})".format(i + 1), device["internalipaddress"])
+        for index, (_, address) in enumerate(devices):
+            print("{})".format(index + 1), address)
 
         try:
-            index = input("Please select one: ")
-            device = devices[self._filter_device_index(index)]
-            ipaddr = device["internalipaddress"]
-        except ValueError as e:
-            print(e.message, file=sys.stderr)
-        except IndexError:
-            print("Device index out of range, exiting.", file=sys.stderr)
+            _, address = devices[self._get_input_index()]
+        except IndexError as e:
+            print("{}, exiting".format(e), file=sys.stderr)
             sys.exit(2)
-
-        passkey = input("Enter device passkey: ").strip()
-        self._setup_credentials(ipaddr, passkey)
-        self.ipaddr = ipaddr
-        self.passkey = passkey
-        return 0
+        else:
+            passkey = input("Enter device passkey: ").strip()
+            config = hue.Config(address, passkey)
+            config.write()
+            hue.set_config(config)
+            print("Configuration successfully written!")
+            return 0
 
     def switch(self, args):
-        self._find_credentials(args)
-        bridge = hue.Bridge(self.ipaddr, self.passkey)
-        lights = bridge.lights
+        self._setup_config(args)
+        bridge = hue.Bridge()
 
         if args.index is not None:
-            lights = [lights[args.index - 1]]
+            lights = [bridge.light(args.index)]
+        else:
+            lights = bridge.lights
 
         if args.value is None:
-            states = [light.on for light in lights]
-            for light, state in zip(lights, states):
-                light.on = not state
+            for light in lights:
+                light.switch()
         elif args.value.lower() == "on":
             for light in lights:
                 light.on = True
@@ -181,12 +129,13 @@ class HueCLI:
         return 0
 
     def color(self, args):
-        self._find_credentials(args)
-        bridge = hue.Bridge(self.ipaddr, self.passkey)
-        lights = bridge.lights
+        self._setup_config(args)
+        bridge = hue.Bridge()
 
         if args.index is not None:
-            lights = [lights[args.index - 1]]
+            lights = [bridge.light(args.index)]
+        else:
+            lights = bridge.lights
 
         for light in lights:
             if args.hue is None:
@@ -200,9 +149,8 @@ class HueCLI:
         return 0
 
     def hrange(self, args):
-        self._find_credentials(args)
-        bridge = hue.Bridge(self.ipaddr, self.passkey)
-        lights = bridge.lights
+        self._setup_config(args)
+        lights = hue.Bridge().lights
 
         if args.hue is None:
             # Set random hue value
@@ -217,8 +165,21 @@ class HueCLI:
             light.bri = int(args.bri / 100 * light.max_bri)
         return 0
 
+    def _setup_config(self, args):
+        try:
+            hue.get_config()
+        except hue.ConfigNotFoundError:
+            self.configure(args)
+
+    def _get_input_index(self):
+        index = int(input("Please select device index: "))
+        if index < 1:
+            raise IndexError("Index must be greater than zero")
+        return index - 1
+
 
 def main():
+
     cli = HueCLI()
     parser = cli.create_parser()
     if len(sys.argv) == 1:
