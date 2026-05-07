@@ -72,6 +72,7 @@ class HueCLI:
         )
         color.set_defaults(callback=self.color)
 
+        # Create command to set color range
         hrange = subparsers.add_parser("range")
         hrange.add_argument("--hue", type=float, help="hue value to set")
         hrange.add_argument(
@@ -81,6 +82,11 @@ class HueCLI:
             "--bri", type=float, default=75, help="brightness value to set"
         )
         hrange.set_defaults(callback=self.hrange)
+
+        # Create command to list all lights
+        list_lights = subparsers.add_parser("ls")
+        list_lights.set_defaults(callback=self.list_lights)
+
         return parser
 
     def configure(self, args):
@@ -165,6 +171,36 @@ class HueCLI:
             light.bri = int(args.bri / 100 * light.max_bri)
         return 0
 
+    def list_lights(self, args):
+        import pprint
+
+        self._setup_config(args)
+
+        def print_sep():
+            print(
+                "+-------+------+-------+-----+-----+--------------------------+"
+            )
+
+        def print_row(index, mode, hue, sat, bri, name):
+            print(
+                f"| {index:6}| {mode:5}| {hue:6}| {sat:4}| {bri:4}| {name:25}|"
+            )
+
+        print_sep()
+        print_row("Index", "Mode", "Hue", "Sat", "Bri", "Name")
+        print_sep()
+        for light in hue.Bridge().lights:
+            # print(f"|{light.index:5}| {light.name}")
+            print_row(
+                index=light.index,
+                mode="on" if light.on else "off",
+                hue=light.hue,
+                sat=light.sat,
+                bri=light.bri,
+                name=light.name,
+            )
+        print_sep()
+
     def _setup_config(self, args):
         try:
             hue.get_config()
@@ -179,7 +215,6 @@ class HueCLI:
 
 
 def main():
-
     cli = HueCLI()
     parser = cli.create_parser()
     if len(sys.argv) == 1:

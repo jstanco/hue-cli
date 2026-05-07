@@ -8,6 +8,10 @@ class Light(Controllable, extension="lights"):
     def on(self) -> bool:
         pass
 
+    @remote(subpath="name")
+    def name(self) -> str:
+        pass
+
     @remote(attribute="hue", subpath="state")
     def hue(self) -> int:
         pass
@@ -33,12 +37,12 @@ class Light(Controllable, extension="lights"):
 
     @classproperty
     def max_hue(self) -> int:
-        return 2 ** 16 - 1
+        return 2**16 - 1
 
     @classproperty
     def max_sat(self) -> int:
-        return 2 ** 8 - 2
+        return 2**8 - 2
 
     @classproperty
     def max_bri(self) -> int:
-        return 2 ** 8 - 2
+        return 2**8 - 2
